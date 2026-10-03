@@ -1,0 +1,67 @@
+/**
+
+Palette generated
+
+FFFBFF White
+F46036 Orange
+FCCA46 Yellow
+390040 Amethyst/Dark purple
+542344 Lighter ish
+
+**/
+
+body {
+    margin: 0;
+}
+
+#phone-frame {
+    position: fixed;
+    left: clamp(16px, 20vw, 260px);
+    top: 50%;
+    width: min(390px, calc(100vw - 32px));
+    height: min(780px, calc(100dvh - 32px));
+    box-sizing: border-box;
+    padding: 12px;
+    border: 3px solid #222;
+    border-radius: 32px;
+    background: #222;
+    transform: translateY(-50%);
+}
+
+#phone-frame::before,
+#phone-frame::after {
+    position: absolute;
+    left: 50%;
+    z-index: 1;
+    content: "";
+    transform: translateX(-50%);
+    pointer-events: none;
+}
+
+#phone-frame::before {
+    top: 4px;
+    width: 104px;
+    height: 24px;
+    border-radius: 14px;
+    background: radial-gradient(circle at 80% 50%, #151a25 0 3px, #35404f 3.5px 5px, transparent 5.5px), #222;
+}
+
+#phone-frame::after {
+    bottom: 20px;
+    width: 92px;
+    height: 4px;
+    border-radius: 2px;
+    background: #222;
+}
+
+#phone-screen {
+    width: 100%;
+    height: 100%;
+    box-sizing: border-box;
+    padding: 28px 0 24px;
+    overflow-x: hidden;
+    overflow-y: auto;
+    overscroll-behavior: contain;
+    border-radius: 19px;
+    background: #fff;
+}
