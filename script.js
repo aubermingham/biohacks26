@@ -110,7 +110,7 @@ if (phoneScreen) {
         homeTitle.textContent = "Overview";
 
         const homeSubtitle = document.createElement("p");
-        homeSubtitle.textContent = "Your feeding system at a glance.";
+        homeSubtitle.textContent = "Pump management application for patients and clinicians. Quickly review your next feed, today's progress, and your symptom rating.";
         homeHeader.append(homeDate, homeTitle, homeSubtitle);
 
         const alertSection = document.createElement("section");
@@ -288,8 +288,14 @@ if (phoneScreen) {
 
 	function handleSchedulesClick() {
         clearContent();
+
+        const schedulesTitle = document.createElement("h1");
+        schedulesTitle.textContent = "Schedules";
+        schedulesTitle.classList.add('visualizations-title');
+        content.appendChild(schedulesTitle);
 		
         const schedulesLabel = document.createElement("p");
+        schedulesLabel.classList.add('visualizations-intro');
         schedulesLabel.textContent = "View and manage your schedules below.";
         content.appendChild(schedulesLabel);
 
@@ -347,9 +353,9 @@ if (phoneScreen) {
         for(let schedule of schedulesList) {
             const scheduleDiv = document.createElement("div");
             scheduleDiv.className = "schedule-item";
-            scheduleDiv.style.border = `1px solid ${COLOR_ACCENT}`;
+            //scheduleDiv.style.border = `1px solid ${COLOR_ACCENT}`;
             scheduleDiv.innerHTML = `
-                <h3 style="background-color: var(--color-highlight);">${schedule.name}</h3>
+                <h3>${schedule.name}</h3>
                 <p>Days: ${schedule.days.join(", ")}</p>
                 <p>Meal Times:</p>
                 <ul>
@@ -466,14 +472,14 @@ if (phoneScreen) {
 
         const graphs = [
             {
-                title: "Graph 1",
-                xValues: [], // Paste the X values here, in order.
-                yValues: [] // Paste the matching Y values here.
+                title: "Calories delivered per day",
+                xValues: [0,1,2,3,4,5,6], 
+                yValues: [1800, 2000, 1900, 2100, 2200, 2000, 2300] 
             },
             {
-                title: "Graph 2",
-                xValues: [], // Paste the X values here, in order.
-                yValues: [] // Paste the matching Y values here.
+                title: "Feeding intolerance risk scoring",
+                xValues: [0,1,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20], 
+                yValues: [0.1,0.1,0.2,0.1,0.1,0.3,0.2,0.1,0.1,0.2,0.3,0.4,0.5,0.4,0.3,0.2,0.1,0.1,0.2,0.1] 
             }
         ];
 
@@ -483,7 +489,7 @@ if (phoneScreen) {
 
         const instructions = document.createElement("p");
         instructions.className = "visualizations-intro";
-        instructions.textContent = "Add matching X and Y data in the graph arrays in script.js.";
+        instructions.textContent = "Insights for clinicians and patients";
 
         const chartList = document.createElement("div");
         chartList.className = "visualizations-list";
@@ -629,7 +635,12 @@ if (phoneScreen) {
             chartList.append(chart);
         });
 
-        content.append(title, instructions, chartList);
+        const generateButton = document.createElement("button");
+        generateButton.className = "home-action-button visualizations-generate-button";
+        generateButton.type = "button";
+        generateButton.textContent = "Generate visualization...";
+
+        content.append(title, instructions, chartList, generateButton);
 	}
 
 	function handleAlarmsClick() {
@@ -819,12 +830,12 @@ if (phoneScreen) {
 	];
 
     const tabExplanations = {
-        Home: "A quick overview of your feeding system, today's progress, the next scheduled feed, and your symptom rating.",
-        Schedules: "Review the weekday and weekend feed routines, including their days, times, volumes, and rates.",
-        History: "Browse the monthly history calendar. Each day is shaded according to its recorded level.",
-        Visualizations: "View two line graphs. Add matching numeric X and Y values to each graph's arrays in script.js.",
-        Alarms: "Review the recent system events in time order. Labels and colors indicate each event's severity.",
-        Settings: "This area is reserved for app and device preferences."
+        Home: "<p>This page provides a quick overview of the system. However, the most important part is the symptom rating: in a real environment, multiple categories of symptoms should be collected to best draw conclusions on how to optimize the patient's nutrition. Future tabs could include exact collections on the nutritional macros delivered for easy management.</p><img src=\"assets/tech-stack-diagram.png\"/>",
+        Schedules: "<p>This quick overview of feeding schedules are dynamically modified by machine learning models to control rate and volume adjustments.</p><img src=\"assets/ml-periodic-diagram.png\" /><img src=\"assets/ml-continuous-diagram.png\" />",
+        History: "<p>This calendar presents a quick monthly view of symptom levels per day, and could also be modified to include other information such as nutrition provided.</p>",
+        Visualizations: "<p>These graphs are examples of possible trends that could be useful in analysis for clinical practice.<br /><br /><br />Using machine learning algorithms in enteral nutrition has already promising results in the literature, so we believe their application has some potential for accurate polished solutions. See the papers here:</p><ul><li><a href=\"https://www.nature.com/articles/s41467-025-66200-1\">NutriSighT: Interpretable Transformer Model for Dynamic Prediction of Underfeeding Enteral Nutrition in Mechanically Ventilated Patients</a></li><li><a href=\"https://pmc.ncbi.nlm.nih.gov/articles/PMC12237648/\" target=\"_blank\">Machine learning-based predictive model for enteral nutrition-associated diarrhea in ICU patients and its nursing applications</a></li><li><a href=\"https://papers.ssrn.com/sol3/papers.cfm?abstract_id=6340580\" target=\"_blank\">Explainable Machine Learning to Predict Enteral Feeding Intolerance in Critically Ill Patients: A Retrospective Cohort Study of Whey Peptide-Based and Standard Formulas</a></li></ul>",
+        Alarms: "<p>This feature is here to help the user have all information replicated on both the pump and the application, allowing for seamless information access anywhere.</p>",
+        Settings: "<p>Simple settings for customizing the app.</p>"
     };
 
     const helpToggle = document.createElement("button");
@@ -850,7 +861,7 @@ if (phoneScreen) {
 
     function updateTabExplanation(label) {
         helpHeading.textContent = `${label} explanation`;
-        helpDescription.textContent = tabExplanations[label];
+        helpDescription.innerHTML = tabExplanations[label];
     }
 
     updateTabExplanation(categories[0].label);
